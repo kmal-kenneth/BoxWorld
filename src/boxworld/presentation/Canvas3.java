@@ -31,6 +31,13 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
     
     private final Sprite[][] world = new Sprite[16][16];
     private final Sprite[][] worldFloor = new Sprite[16][16];
+    private final Sprite[] goals = new Sprite[4];
+    private final Sprite[] boxes = new Sprite[4];
+    
+    private boolean check = false;
+    private boolean check1 = false;
+    private boolean check2 = false;
+    private boolean check3 = false;
     
     public Canvas3() {
         
@@ -53,6 +60,24 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
         worldFloor[6][9] = new Sprite(Assets.FLOOR, false, 6, 9);
         worldFloor[6][8] = new Sprite(Assets.FLOOR, false, 6, 8);
         
+        goals[0] = worldFloor[5][8];        
+        goals[1] = worldFloor[5][9];        
+        goals[2] = worldFloor[6][9];        
+        goals[3] = worldFloor[6][8];     
+        
+        world[5][6] = new Sprite(Assets.BOX, 5, 6);
+        world[7][7] = new Sprite(Assets.BOX, 7, 7);
+        world[9][8] = new Sprite(Assets.BOX, 9, 8);
+        world[10][7] = new Sprite(Assets.BOX, 10, 7);
+        
+        boxes[0] = world[5][6];
+        boxes[1] = world[7][7];
+        boxes[2] = world[9][8];
+        boxes[3] = world[10][7];
+        
+        world[5][7] = new Sprite(Assets.PLAYER, 5, 7);
+        pj = world[5][7];
+        
         //Columna X=3
         world[3][6] = new Sprite(Assets.WALL, 3, 6);
         world[3][7] = new Sprite(Assets.WALL, 3, 7);
@@ -66,9 +91,6 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
         world[4][10] = new Sprite(Assets.WALL, 4, 10);
         //Columna X=5
         world[5][4] = new Sprite(Assets.WALL, 5, 4);
-        world[5][6] = new Sprite(Assets.BOX, 5, 6);
-        world[5][7] = new Sprite(Assets.PLAYER, 5, 7);
-        pj = world[5][7];
         world[5][10] = new Sprite(Assets.WALL, 5, 10);
         //Columna X=6
         world[6][4] = new Sprite(Assets.WALL, 6, 4);
@@ -77,7 +99,6 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
         //Columna X=7
         world[7][4] = new Sprite(Assets.WALL, 7, 4);
         world[7][6] = new Sprite(Assets.WALL, 7, 6);
-        world[7][7] = new Sprite(Assets.BOX, 7, 7);
         world[7][8] = new Sprite(Assets.WALL, 7, 8);
         world[7][9] = new Sprite(Assets.WALL, 7, 9);
         world[7][10] = new Sprite(Assets.WALL, 7, 10);
@@ -87,12 +108,10 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
         world[8][10] = new Sprite(Assets.WALL, 8, 10);
         //Columna X=9
         world[9][4] = new Sprite(Assets.WALL, 9, 4);
-        world[9][8] = new Sprite(Assets.BOX, 9, 8);
         world[9][10] = new Sprite(Assets.WALL, 9, 10);
         //Columna X=10
         world[10][4] = new Sprite(Assets.WALL, 10, 4);
         world[10][5] = new Sprite(Assets.WALL, 10, 5);
-        world[10][7] = new Sprite(Assets.BOX, 10, 7);
         world[10][10] = new Sprite(Assets.WALL, 10, 10);
         //Columna X=11
         world[11][5] = new Sprite(Assets.WALL, 11, 5);
@@ -264,13 +283,20 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
                         }
                     
                     }                    
-                    // Agregar verificacion si tor esta en goal
-                    // Agregar verificacion si box esta en goal
-                    
-                    //Verificar si todos los estados estan en true Para 
                     
                     break;
             }
+                    // Agregar verificacion si tor esta en goal
+                    pjGoals();
+                    // Agregar verificacion si box esta en goal
+                    boxGoals();
+                    
+                    //Verificar si todos los estados estan en true Para 
+                    if(check && check1 && check2 && check3) {
+                    
+                        System.out.println("finish");
+                    }
+                    
                     repaint();
         }
         
@@ -311,553 +337,63 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
             return t;
         }
         
+        private void pjGoals(){
+            
+            boolean defaultSkin = true;
         
-        private void moveUp(){
+            for (int i= 0; i < 4; i++){
             
-            Sprite t;
-            
-            if (world[pj.getX()][pj.getY()-1].getAsset() == Assets.BOX){
-
+                if(goals[i].getX() == pj.getX() && goals[i].getY() == pj.getY()) {
                 
-               if(world[pj.getX()][pj.getY() -2].getAsset() != Assets.WALL &&  world[pj.getX()][pj.getY() -2].getAsset() != Assets.BOX){
-                   
-                    if(point == null){
-                   
-                        pj.setY(pj.getY() -1);
-                        //caja
-                        Sprite caja = world[pj.getX()][pj.getY()];
-
-                        caja.setY(pj.getY() -1);
-
-                        Sprite t2 = world[pj.getX()][pj.getY()-1];
-
-                        world[pj.getX()][pj.getY()-1] = caja;
-                        world[pj.getX()][pj.getY()] = t2;
-
-                        t2.setY(pj.getY() + 1);
-
-                        //pj
-
-                         t = world[pj.getX()][pj.getY()];
-
-                         world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() +1];
-                         world[pj.getX()][pj.getY() + 1] = t;
-
-                         t.setY(pj.getY() + 1);
-                    } else{
-                    
-                        pj.setY(pj.getY() -1);
-                        //caja
-                        Sprite caja = world[pj.getX()][pj.getY()];
-
-                        caja.setY(pj.getY() -1);
-
-                        Sprite t2 = world[pj.getX()][pj.getY()-1];
-
-                        world[pj.getX()][pj.getY()-1] = caja;
-                        world[pj.getX()][pj.getY()] = t2;
-
-                        t2.setY(pj.getY() + 1);
-
-                        //pj
-
-                         t = point;
-
-                         world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() +1];
-                         world[pj.getX()][pj.getY() + 1] = t;
-                         
-                         point = null;
-                    }
+                    defaultSkin = false;
                 }
-                
-            } else if (world[pj.getX()][pj.getY()-1].getAsset() == Assets.FLOOR && !world[pj.getX()][pj.getY()-1].isDefaultSkin()){
-                
-                
-                if(point == null){
-                
-                    point = world[pj.getX()][pj.getY()-1];
-
-                    pj.setY(pj.getY() -1);
-
-                    t = new Sprite(Assets.FLOOR, pj.getX(), pj.getY());
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() +1];
-                    world[pj.getX()][pj.getY() + 1] = t;
-
-                    t.setY(pj.getY() + 1);
-                } else {
-                
-                    Sprite point2 = world[pj.getX()][pj.getY()-1];
-
-                    pj.setY(pj.getY() -1);
-
-                    t = point;
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() +1];
-                    world[pj.getX()][pj.getY() + 1] = t;
-                    
-                    point = point2;
-                }
-                
-                pj.setDefaultSkin(false);
-                
-            } else {
-                
-                if(point == null){ 
-                
-                
-                    pj.setY(pj.getY() -1);
-
-                    t = world[pj.getX()][pj.getY()];
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() +1];
-                    world[pj.getX()][pj.getY() + 1] = t;
-
-                    t.setY(pj.getY() + 1);
-                } else {
-                
-                    pj.setY(pj.getY() -1);
-
-                    t = point;
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() +1];
-                    world[pj.getX()][pj.getY() + 1] = t;
-                    
-                    point = null;
-
-                }        
-                
-                pj.setDefaultSkin(true);
             }
-            
-//            System.out.println(point);
-        
+                    pj.setDefaultSkin(defaultSkin);
         }
         
-        private void moveDown(){
-            Sprite t;
+        private void boxGoals(){
             
-            if (world[pj.getX()][pj.getY()+1].getAsset() == Assets.BOX){
-
-                
-               if(world[pj.getX()][pj.getY() +2].getAsset() != Assets.WALL &&  world[pj.getX()][pj.getY() +2].getAsset() != Assets.BOX){
-                   
-                    if(point == null){
-                   
-                        pj.setY(pj.getY() +1);
-//                        boxMoveDown();
-
-//pj.setY(pj.getY() +1);
-                        //caja
-                        Sprite caja = world[pj.getX()][pj.getY()];
-
-                        caja.setY(pj.getY() +1);
-
-                        Sprite t2 = world[pj.getX()][pj.getY()+1];
-
-                        world[pj.getX()][pj.getY()+1] = caja;
-                        world[pj.getX()][pj.getY()] = t2;
-
-                        t2.setY(pj.getY() - 1);
-
-                        //pj
-
-                         t = world[pj.getX()][pj.getY()];
-
-                         world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() -1];
-                         world[pj.getX()][pj.getY() - 1] = t;
-
-                         t.setY(pj.getY() - 1);
-                    } else{
-                    
-                        pj.setY(pj.getY() +1);
-                        //caja
-                        Sprite caja = world[pj.getX()][pj.getY()];
-
-                        caja.setY(pj.getY() +1);
-
-                        Sprite t2 = world[pj.getX()][pj.getY()+1];
-
-                        world[pj.getX()][pj.getY()+1] = caja;
-                        world[pj.getX()][pj.getY()] = t2;
-
-                        t2.setY(pj.getY() - 1);
-
-                        //pj
-
-                         t = point;
-
-                         world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() -1];
-                         world[pj.getX()][pj.getY() -1] = t;
-                         
-                         point = null;
-                    }
-                }
-                
-            } else if (world[pj.getX()][pj.getY()+1].getAsset() == Assets.FLOOR && !world[pj.getX()][pj.getY()+1].isDefaultSkin()){
-                
-                
-                if(point == null){
-                
-                    point = world[pj.getX()][pj.getY()+1];
-
-                    pj.setY(pj.getY() +1);
-
-                    t = new Sprite(Assets.FLOOR, pj.getX(), pj.getY());
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() -1];
-                    world[pj.getX()][pj.getY() - 1] = t;
-
-                    t.setY(pj.getY() - 1);
-                } else {
-                
-                    Sprite point2 = world[pj.getX()][pj.getY()+1];
-
-                    pj.setY(pj.getY() +1);
-
-                    t = point;
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() -1];
-                    world[pj.getX()][pj.getY() - 1] = t;
-                    
-                    point = point2;
-                }
-                
-                pj.setDefaultSkin(false);
-                
-                
-            } else {
-                
-                if(point == null){ 
-                
-                
-                    pj.setY(pj.getY() +1);
-
-                    t = world[pj.getX()][pj.getY()];
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() -1];
-                    world[pj.getX()][pj.getY() - 1] = t;
-
-                    t.setY(pj.getY() - 1);
-                } else {
-                
-                    pj.setY(pj.getY() +1);
-
-                    t = point;
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() -1];
-                    world[pj.getX()][pj.getY() - 1] = t;
-                    
-                    point = null;
-
-                }  
-                
-                pj.setDefaultSkin(true);
-            }
-        }
-        
-        private void moveRigth(){
-            Sprite t;
+            boolean defaultSkin1 = true;
+            boolean defaultSkin2 = true;
+            boolean defaultSkin3 = true;
+            boolean defaultSkin4 = true;
             
-            if (world[pj.getX() +1][pj.getY()].getAsset() == Assets.BOX){
-
-                
-               if(world[pj.getX() +2][pj.getY() ].getAsset() != Assets.WALL &&  world[pj.getX() +2][pj.getY() ].getAsset() != Assets.BOX){
-                   
-                    if(point == null){
-                   
-                        pj.setX(pj.getX() +1);
-                        //caja
-                        Sprite caja = world[pj.getX()][pj.getY()];
-
-                        caja.setX(pj.getX() +1);
-
-                        Sprite t2 = world[pj.getX() +1][pj.getY()];
-
-                        world[pj.getX() +1][pj.getY()] = caja;
-                        world[pj.getX()][pj.getY()] = t2;
-
-                        t2.setX(pj.getX() - 1);
-
-                        //pj
-
-                         t = world[pj.getX()][pj.getY()];
-
-                         world[pj.getX()][pj.getY()] = world[pj.getX() -1][pj.getY() ];
-                         world[pj.getX() -1][pj.getY()] = t;
-
-                         t.setX(pj.getX() - 1);
-                    } else{
-                    
-                        pj.setX(pj.getX() +1);
-                        //caja
-                        Sprite caja = world[pj.getX()][pj.getY()];
-
-                        caja.setX(pj.getX() +1);
-
-                        Sprite t2 = world[pj.getX() +1][pj.getY()];
-
-                        world[pj.getX() +1][pj.getY()] = caja;
-                        world[pj.getX()][pj.getY()] = t2;
-
-                        t2.setX(pj.getX() - 1);
-
-                        //pj
-
-                         t = point;
-
-                         world[pj.getX()][pj.getY()] = world[pj.getX() -1][pj.getY()];
-                         world[pj.getX() -1][pj.getY()] = t;
-                         
-                         point = null;
-                    }
-                }
-                
-            } else if (world[pj.getX() +1][pj.getY()].getAsset() == Assets.FLOOR && !world[pj.getX() +1][pj.getY()].isDefaultSkin()){
-                
-                
-                if(point == null){
-                
-                    point = world[pj.getX() +1][pj.getY()];
-
-                    pj.setX(pj.getX() +1);
-
-                    t = new Sprite(Assets.FLOOR, pj.getX(), pj.getY());
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX() -1][pj.getY()];
-                    world[pj.getX() -1][pj.getY()] = t;
-
-                    t.setX(pj.getX() - 1);
-                } else {
-                
-                    Sprite point2 = world[pj.getX() +1][pj.getY()];
-
-                    pj.setX(pj.getX() +1);
-
-                    t = point;
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX() -1][pj.getY()];
-                    world[pj.getX() -1][pj.getY()] = t;
-                    
-                    point = point2;
-                }
-                
-                pj.setDefaultSkin(false);
-                
-                
-            } else {
-                
-                if(point == null){ 
-                
-                
-                    pj.setX(pj.getX() +1);
-
-                    t = world[pj.getX()][pj.getY()];
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX() -1][pj.getY()];
-                    world[pj.getX() -1][pj.getY()] = t;
-
-                    t.setX(pj.getX() - 1);
-                } else {
-                
-                    pj.setX(pj.getX() +1);
-
-                    t = point;
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX() -1][pj.getY()];
-                    world[pj.getX() -1][pj.getY()] = t;
-                    
-                    point = null;
-
-                }  
-                
-                pj.setDefaultSkin(true);
-            }
-        }
+            check =  false;
+            check1 =  false;
+            check2 =  false;
+            check3 =  false;
         
-        private void moveLefth(){
-        
-            Sprite t;
-            
-            if (world[pj.getX() -1][pj.getY()].getAsset() == Assets.BOX){
+            for (int i= 0; i < 4; i++){
+                for (int j= 0; j < 4; j++){
 
-                
-               if(world[pj.getX() -2][pj.getY() ].getAsset() != Assets.WALL &&  world[pj.getX() -2][pj.getY() ].getAsset() != Assets.BOX){
-                   
-                    if(point == null){
-                   
-                        pj.setX(pj.getX() -1);
-                        //caja
-                        Sprite caja = world[pj.getX()][pj.getY()];
-
-                        caja.setX(pj.getX() -1);
-
-                        Sprite t2 = world[pj.getX() -1][pj.getY()];
-
-                        world[pj.getX() -1][pj.getY()] = caja;
-                        world[pj.getX()][pj.getY()] = t2;
-
-                        t2.setX(pj.getX() + 1);
-
-                        //pj
-
-                         t = world[pj.getX()][pj.getY()];
-
-                         world[pj.getX()][pj.getY()] = world[pj.getX() +1][pj.getY() ];
-                         world[pj.getX() +1][pj.getY()] = t;
-
-                         t.setX(pj.getX() + 1);
-                    } else{
-                    
-                        pj.setX(pj.getX() -1);
-                        //caja
-                        Sprite caja = world[pj.getX()][pj.getY()];
-
-                        caja.setX(pj.getX() -1);
-
-                        Sprite t2 = world[pj.getX() -1][pj.getY()];
-
-                        world[pj.getX() -1][pj.getY()] = caja;
-                        world[pj.getX()][pj.getY()] = t2;
-
-                        t2.setX(pj.getX() + 1);
-
-                        //pj
-
-                         t = point;
-
-                         world[pj.getX()][pj.getY()] = world[pj.getX() +1][pj.getY()];
-                         world[pj.getX() +1][pj.getY()] = t;
-                         
-                         point = null;
-                    }
-                }
-                
-            } else if (world[pj.getX() -1][pj.getY()].getAsset() == Assets.FLOOR && !world[pj.getX() -1][pj.getY()].isDefaultSkin()){
-                
-                
-                if(point == null){
-                
-                    point = world[pj.getX() -1][pj.getY()];
-
-                    pj.setX(pj.getX() -1);
-
-                    t = new Sprite(Assets.FLOOR, pj.getX(), pj.getY());
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX() +1][pj.getY()];
-                    world[pj.getX() +1][pj.getY()] = t;
-
-                    t.setX(pj.getX() + 1);
-                } else {
-                
-                    Sprite point2 = world[pj.getX() -1][pj.getY()];
-
-                    pj.setX(pj.getX() -1);
-
-                    t = point;
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX() +1][pj.getY()];
-                    world[pj.getX() +1][pj.getY()] = t;
-                    
-                    point = point2;
-                }
-                
-                pj.setDefaultSkin(false);
-                
-                
-            } else {
-                
-                if(point == null){ 
-                
-                
-                    pj.setX(pj.getX() -1);
-
-                    t = world[pj.getX()][pj.getY()];
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX() +1][pj.getY()];
-                    world[pj.getX() +1][pj.getY()] = t;
-
-                    t.setX(pj.getX() + 1);
-                } else {
-                
-                    pj.setX(pj.getX() -1);
-
-                    t = point;
-
-                    world[pj.getX()][pj.getY()] = world[pj.getX() +1][pj.getY()];
-                    world[pj.getX() +1][pj.getY()] = t;
-                    
-                    point = null;
-
-                }  
-                
-                pj.setDefaultSkin(true);
-            }
-        }
-        
-        private void boxMoveUp(){}
-        private void boxMoveDown(){
-        
-        
-            if (world[pj.getX()][pj.getY()+2].getAsset() == Assets.FLOOR && !world[pj.getX()][pj.getY()+2].isDefaultSkin()){
-                
-                if(point2 == null){
-                
-                        point2 = world[pj.getX()][pj.getY()+1];
-                    
-                        Sprite caja = world[pj.getX()][pj.getY()];
-
-                        caja.setY(pj.getY() +1);
-
-                        Sprite t2 = new Sprite(Assets.FLOOR, pj.getX(), pj.getY()+1);
-
-                        world[pj.getX()][pj.getY()+1] = caja;
-                        world[pj.getX()][pj.getY()] = t2;
-
-                        t2.setY(pj.getY() - 1);
+                        if(goals[i].getX() == boxes[0].getX() && goals[i].getY() == boxes[0].getY()){
+                            
+                            defaultSkin1 =  false;
+                            check = true;
                         
-                        point = point2;
-                        moveDown();
+                        } else if(goals[i].getX() == boxes[1].getX() && goals[i].getY() == boxes[1].getY()){
                         
-                } else {
-                
-                        Sprite point3 = world[pj.getX()][pj.getY()+1];
-                    
-                    
-                        Sprite caja = world[pj.getX()][pj.getY()];
-
-                        caja.setY(pj.getY() +1);
-
-                        Sprite t2 = point2;
-
-                        world[pj.getX()][pj.getY()+1] = caja;
-                        world[pj.getX()][pj.getY()] = t2;
-
-
-                        point2 = point3;
+                            check1 = true;
+                            defaultSkin2 =  false;
+                        } else if(goals[i].getX() == boxes[2].getX() && goals[i].getY() == boxes[2].getY()){
                         
-//                        System.out.println(point.toString());
+                            check2 = true;
+                            defaultSkin3 =  false;
+                        } else if(goals[i].getX() == boxes[3].getX() && goals[i].getY() == boxes[3].getY()){
+                            
+                            check3 = true;
+                            defaultSkin4 =  false;
+                        }
                 }
-            
-            } else {
-                
-                pj.setY(pj.getY() +1);
-                        //caja
-                        Sprite caja = world[pj.getX()][pj.getY()];
-
-                        caja.setY(pj.getY() +1);
-
-                        Sprite t2 = world[pj.getX()][pj.getY()+1];
-
-                        world[pj.getX()][pj.getY()+1] = caja;
-                        world[pj.getX()][pj.getY()] = t2;
-
-                        t2.setY(pj.getY() - 1);
-            
             }
+            
+            boxes[0].setDefaultSkin(defaultSkin1);
+            boxes[1].setDefaultSkin(defaultSkin2);
+            boxes[2].setDefaultSkin(defaultSkin3);
+            boxes[3].setDefaultSkin(defaultSkin4);
+            
         }
-        private void boxMoveLeft(){}
-        private void boxMoveRigth(){}
+        
     }
 }
 

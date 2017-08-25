@@ -144,32 +144,162 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
 
             switch (key) {
                 case KeyEvent.VK_LEFT:
+                    
+                    //Si el Sprite izquierdo es muro no se mueve
+                    if (world[pj.getX() - 1][pj.getY()].getAsset() != Assets.WALL) {
+                    
+                        //update cordenada x del pj
+                        pj.setX(pj.getX() -1);
+                        
+                        moveLefth();
+                    }
+                    
+                    
                     break;
                 case KeyEvent.VK_RIGHT:
+                    
+                    if (world[pj.getX() + 1][pj.getY()].getAsset() != Assets.WALL) {
+                    
+                        pj.setX(pj.getX() +1);
+
+                        moveRigth();
+                    }
                     break;
                 case KeyEvent.VK_UP:
                     
-                    pj.setY(pj.getY() -1);
-                    System.out.println(pj.getY());
-                    
-                    Sprite t = world[pj.getX()][pj.getY()];
-                    
-                    world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() +1];
-                    world[pj.getX()][pj.getY() + 1] = t;
-                    
-                    t.setY(pj.getY() + 1);
+                    if (world[pj.getX()][pj.getY() - 1].getAsset() != Assets.WALL) {
+
+                            moveUp();
+                            moveBox(0);
+                     
+                    }
                     
                     break;
                 case KeyEvent.VK_DOWN:
                     
-//                    if(world[][]){}
-                    pj.setY(pj.getY() +43);
-                    System.out.println(pj.getY());
+                    if (world[pj.getX()][pj.getY() + 1].getAsset() != Assets.WALL) {
+                        
+                        pj.setY(pj.getY() +1);
+                        
+                        moveDown();
+                    
+                    }                    
                     
                     
                     break;
             }
                     repaint();
+        }
+        
+        
+        private void moveUp(){
+            
+            Sprite t;
+            
+            if (world[pj.getX()][pj.getY()-1].getAsset() == Assets.BOX){
+
+                
+               if(world[pj.getX()][pj.getY() -2].getAsset() != Assets.WALL &&  world[pj.getX()][pj.getY() -2].getAsset() != Assets.BOX){
+                   
+                   
+                   pj.setY(pj.getY() -1);
+                   //caja
+                   Sprite caja = world[pj.getX()][pj.getY()];
+                   
+                   caja.setY(pj.getY() -1);
+                   
+                   Sprite t2 = world[pj.getX()][pj.getY()-1];
+                   
+                   world[pj.getX()][pj.getY()-1] = caja;
+                   world[pj.getX()][pj.getY()] = t2;
+                   
+                   t2.setY(pj.getY() + 1);
+                   
+                   //pj
+            
+                    t = world[pj.getX()][pj.getY()];
+
+                    world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() +1];
+                    world[pj.getX()][pj.getY() + 1] = t;
+
+                    t.setY(pj.getY() + 1);
+                }
+                
+            } else if (world[pj.getX()][pj.getY()].getAsset() == Assets.FLOOR && !world[pj.getX()][pj.getY()].isDefaultSkin()){
+                
+                
+            } else {
+            
+                pj.setY(pj.getY() -1);
+            
+                t = world[pj.getX()][pj.getY()];
+
+                world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() +1];
+                world[pj.getX()][pj.getY() + 1] = t;
+
+                t.setY(pj.getY() + 1);
+            
+            }
+        
+        }
+        
+        private void moveDown(){
+            Sprite t;
+            
+            t = world[pj.getX()][pj.getY()];
+
+            world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() -1];
+            world[pj.getX()][pj.getY() - 1] = t;
+
+            t.setY(pj.getY() - 1);
+        }
+        
+        private void moveRigth(){
+            Sprite t;
+        
+            t = world[pj.getX()][pj.getY()];
+
+            world[pj.getX()][pj.getY()] = world[pj.getX() -1][pj.getY()];
+            world[pj.getX() -1][pj.getY()] = t;
+
+            t.setX(pj.getX() - 1);
+        }
+        
+        private void moveLefth(){
+        
+            Sprite t;
+        
+            //Guarda temporalmente el Sprite izquierdo
+                        t = world[pj.getX()][pj.getY()];
+
+                        //Se mueve a la izquierda
+                        world[pj.getX()][pj.getY()] = world[pj.getX() +1][pj.getY()];
+                        
+                        // se actualiza el x de la casilla temporal
+                        t.setX(pj.getX() + 1);
+
+                        //Se remplaza la casilla anterior
+                        world[pj.getX() +1][pj.getY()] = t;
+        }
+        
+        private boolean moveBox(int direction){
+            
+            boolean move = false;
+            
+            if(direction == 0){
+                
+                
+            
+            } else if(direction == 1){
+                
+            } else if(direction == 2){
+                
+                
+            } else if(direction == 3){
+                
+            }
+        
+            return move;
         }
     }
 }

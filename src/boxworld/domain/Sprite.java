@@ -19,9 +19,9 @@ public class Sprite implements Drawable {
     protected int y;
     protected Image skin1;
     protected Image skin2;
-    protected Assets asset;
+    private Assets asset;
     
-    protected boolean defaultSkin;
+    private boolean defaultSkin;
 
     protected final int SPRITE_SIZE = 48;
 
@@ -82,4 +82,22 @@ public class Sprite implements Drawable {
             g2d.drawImage(skin1, this.x * SPRITE_SIZE, this.y * SPRITE_SIZE, canvas);
         }
     }
+
+    public Assets getAsset() {
+        return asset;
+    }
+
+    public void setAsset(Assets asset) {
+        this.asset = asset;
+    }
+
+    public boolean isDefaultSkin() {
+        return defaultSkin;
+    }
+
+    public void setDefaultSkin(boolean defaultSkin) {
+        this.defaultSkin = defaultSkin;
+    }
+    
+    
 }

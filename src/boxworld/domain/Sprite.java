@@ -14,7 +14,7 @@ import javax.swing.JPanel;
  *
  * @author oscar
  */
-public class Sprite implements Drawable {
+public class Sprite {
     
     protected int x;
     protected int y;
@@ -100,10 +100,7 @@ public class Sprite implements Drawable {
         return skin2;
     }
 
-    @Override
-    public void paint(Graphics2D g2d, JPanel canvas, int x, int y) {
-        this.x = x;
-        this.y = y;
+    public void paint(Graphics2D g2d, JPanel canvas) {
         
         if (defaultSkin){
         

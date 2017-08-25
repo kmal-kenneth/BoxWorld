@@ -18,7 +18,7 @@ public enum Assets {
      *
      */
     BOX(new ImageIcon("image/box1.png").getImage(), new ImageIcon("image/box2.png").getImage()),
-    Player(new ImageIcon("image/player1.png").getImage(), new ImageIcon("image/player2.png").getImage()),
+    PLAYER(new ImageIcon("image/player1.png").getImage(), new ImageIcon("image/player2.png").getImage()),
     WALL(new ImageIcon("image/wall.png").getImage(), null),
     FLOOR(new ImageIcon("image/floor1.png").getImage(), new ImageIcon("image/floor2.png").getImage());
     

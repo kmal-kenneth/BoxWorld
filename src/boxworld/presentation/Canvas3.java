@@ -20,12 +20,17 @@ public class Canvas3 extends JPanel implements Runnable{
     private final int C_HEIGHT = 688; //alto del canvas en pixeles
     private final int SPRITE_SIZE = 43; //ancho y alto del sprite en pixeles
     
+    private final BufferedImage bufferedImage; 
+    
     private final Sprite[][] world = new Sprite[16][16];
     
     public Canvas3() {
         setFocusable(true);
         setSize(new Dimension(C_WIDTH, C_HEIGHT));
         setPreferredSize(new Dimension(C_WIDTH, C_HEIGHT));
+        
+        this.bufferedImage = new BufferedImage(this.C_WIDTH, this.C_HEIGHT, BufferedImage.TYPE_INT_RGB); 
+
         
         for(int i = 0; i < 16; i++){
             for(int j = 0; j < 16; j++){
@@ -89,7 +94,7 @@ public class Canvas3 extends JPanel implements Runnable{
         world[12][7] = new Sprite(Assets.WALL, 12, 7);
         world[12][8] = new Sprite(Assets.WALL, 12, 8);
     }
-    /*
+    
     @Override
     public void paint(Graphics g){
         super.paint(g);
@@ -105,11 +110,11 @@ public class Canvas3 extends JPanel implements Runnable{
                 if (world[x][y] == null)
                     continue;
                 sprite = world[x][y];
-                sprite.paint(g2D, this, x, y);
+                sprite.paint(g2D, this);
             }
         }
         g.drawImage(bufferedImage, 0, 0, this);
-    }*/
+    }
     
     @Override
     public void run() {

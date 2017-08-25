@@ -32,6 +32,15 @@ public class Sprite implements Drawable {
         skin2 = this.asset.getSkin2();
         
         defaultSkin = true;
+    } 
+    
+    public Sprite(Assets asset, boolean defaultSkin) {
+        this.asset = asset;
+        
+        skin1 = this.asset.getSkin1();
+        skin2 = this.asset.getSkin2();
+        
+        this.defaultSkin = defaultSkin;
     }
    
     public void setX(int x) {

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package boxworld.presentation;
-import boxworld.classes.*;
+import boxworld.domain.Assets;
 import boxworld.domain.Sprite;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -32,86 +32,74 @@ public class Canvas3 extends JPanel implements Runnable{
         
         this.bufferedImage = new BufferedImage(this.C_WIDTH, this.C_HEIGHT, BufferedImage.TYPE_INT_RGB);
         
+        for(int i = 0; i < 16; i++){
+            for(int j = 0; j < 16; j++){
+            
+                world[i][j] = new Sprite(Assets.FLOOR);
+            }        
+        }
+        
         //Columna X=3
-        world[3][6] = new Wall();
-        world[3][7] = new Wall();
-        world[3][8] = new Wall();
-        world[3][9] = new Wall();
+        world[3][6] = new Sprite(Assets.WALL);
+        world[3][7] = new Sprite(Assets.WALL);
+        world[3][8] = new Sprite(Assets.WALL);
+        world[3][9] = new Sprite(Assets.WALL);
         //Columna X=4
-        world[4][4] = new Wall();
-        world[4][5] = new Wall();
-        world[4][6] = new Wall();
-        world[4][7] = new Floor("a");
-        world[4][8] = new Floor("a");
-        world[4][9] = new Wall();
-        world[4][10] = new Wall();
+        world[4][4] = new Sprite(Assets.WALL);
+        world[4][5] = new Sprite(Assets.WALL);
+        world[4][6] = new Sprite(Assets.WALL);
+        world[4][9] = new Sprite(Assets.WALL);
+        world[4][10] = new Sprite(Assets.WALL);
         //Columna X=5
-        world[5][4] = new Wall();
-        world[5][5] = new Floor("a");
-        world[5][6] = new Box("a");
-        world[5][7] = new Player("a");
-        world[5][8] = new Floor("b");
-        world[5][9] = new Floor("b");
-        world[5][10] = new Wall();
+        world[5][4] = new Sprite(Assets.WALL);
+        world[5][6] = new Sprite(Assets.BOX);
+        world[5][7] = new Sprite(Assets.Player);
+        world[5][8] = new Sprite(Assets.FLOOR, false);
+        world[5][9] = new Sprite(Assets.FLOOR, false);
+        world[5][10] = new Sprite(Assets.WALL);
         //Columna X=6
-        world[6][4] = new Wall();
-        world[6][5] = new Floor("a");
-        world[6][6] = new Wall();
-        world[6][7] = new Floor("a");
-        world[6][8] = new Floor("b");
-        world[6][9] = new Floor("b");
-        world[6][10] = new Wall();
+        world[6][4] = new Sprite(Assets.WALL);
+        world[6][6] = new Sprite(Assets.WALL);
+        world[6][8] = new Sprite(Assets.FLOOR, false);
+        world[6][9] = new Sprite(Assets.FLOOR, false);
+        world[6][10] = new Sprite(Assets.WALL);
         //Columna X=7
-        world[7][4] = new Wall();
-        world[7][5] = new Floor("a");
-        world[7][6] = new Wall();
-        world[7][7] = new Box("a");
-        world[7][8] = new Wall();
-        world[7][9] = new Wall();
-        world[7][10] = new Wall();
+        world[7][4] = new Sprite(Assets.WALL);
+        world[7][6] = new Sprite(Assets.WALL);
+        world[7][7] = new Sprite(Assets.BOX);
+        world[7][8] = new Sprite(Assets.WALL);
+        world[7][9] = new Sprite(Assets.WALL);
+        world[7][10] = new Sprite(Assets.WALL);
         //Columna X=8
-        world[8][4] = new Wall();
-        world[8][5] = new Floor("a");
-        world[8][6] = new Wall();
-        world[8][7] = new Floor("a");
-        world[8][8] = new Floor("a");
-        world[8][9] = new Floor("a");
-        world[8][10] = new Wall();
+        world[8][4] = new Sprite(Assets.WALL);
+        world[8][6] = new Sprite(Assets.WALL);
+        world[8][10] = new Sprite(Assets.WALL);
         //Columna X=9
-        world[9][4] = new Wall();
-        world[9][5] = new Floor("a");
-        world[9][6] = new Floor("a");
-        world[9][7] = new Floor("a");
-        world[9][8] = new Box("a");
-        world[9][9] = new Floor("a");
-        world[9][10] = new Wall();
+        world[9][4] = new Sprite(Assets.WALL);
+        world[9][8] = new Sprite(Assets.BOX);
+        world[9][10] = new Sprite(Assets.WALL);
         //Columna X=10
-        world[10][4] = new Wall();
-        world[10][5] = new Wall();
-        world[10][6] = new Floor("a");
-        world[10][7] = new Box("a");
-        world[10][8] = new Floor("a");
-        world[10][9] = new Floor("a");
-        world[10][10] = new Wall();
+        world[10][4] = new Sprite(Assets.WALL);
+        world[10][5] = new Sprite(Assets.WALL);
+        world[10][7] = new Sprite(Assets.BOX);
+        world[10][10] = new Sprite(Assets.WALL);
         //Columna X=11
-        world[11][5] = new Wall();
-        world[11][6] = new Floor("a");
-        world[11][7] = new Floor("a");
-        world[11][8] = new Wall();
-        world[11][9] = new Wall();
-        world[11][10] = new Wall();
+        world[11][5] = new Sprite(Assets.WALL);
+        world[11][8] = new Sprite(Assets.WALL);
+        world[11][9] = new Sprite(Assets.WALL);
+        world[11][10] = new Sprite(Assets.WALL);
         //Columna X=12
-        world[12][5] = new Wall();
-        world[12][6] = new Wall();
-        world[12][7] = new Wall();
-        world[12][8] = new Wall();
+        world[12][5] = new Sprite(Assets.WALL);
+        world[12][6] = new Sprite(Assets.WALL);
+        world[12][7] = new Sprite(Assets.WALL);
+        world[12][8] = new Sprite(Assets.WALL);
     }
     
     @Override
     public void paint(Graphics g){
         super.paint(g);
         Graphics2D g2D = (Graphics2D) bufferedImage.createGraphics();
-        g2D.setColor(Color.BLACK);
+        g2D.setColor(Color.lightGray);
         g2D.fillRect(0,0,this.getWidth(),this.getHeight());
         
         Sprite sprite;

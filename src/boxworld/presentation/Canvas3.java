@@ -149,15 +149,16 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
                     break;
                 case KeyEvent.VK_UP:
                     
-                    pj.setY(pj.getY() -43);
+                    pj.setY(pj.getY() -1);
                     System.out.println(pj.getY());
                     
                     Sprite t = world[pj.getX()][pj.getY()];
-                    world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() + 43];
-                    world[pj.getX()][pj.getY() + 43] = t;
                     
-                    t.setY(pj.getY() + 43);
-                    repaint();
+                    world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() +1];
+                    world[pj.getX()][pj.getY() + 1] = t;
+                    
+                    t.setY(pj.getY() + 1);
+                    
                     break;
                 case KeyEvent.VK_DOWN:
                     
@@ -165,10 +166,10 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
                     pj.setY(pj.getY() +43);
                     System.out.println(pj.getY());
                     
-                    repaint();
                     
                     break;
             }
+                    repaint();
         }
     }
 }

@@ -7,24 +7,32 @@ package boxworld.presentation;
 import boxworld.domain.Assets;
 import boxworld.domain.Sprite;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+import simplesnake.Board;
 
 /**
  *
  * @author oscar
  */
-public class Canvas3 extends JPanel implements Runnable{
+public class Canvas3 extends JPanel implements Runnable,  ActionListener {
     
     private final int C_WIDTH = 688; //ancho del canvas en pixeles
     private final int C_HEIGHT = 688; //alto del canvas en pixeles
-    private final int SPRITE_SIZE = 43; //ancho y alto del sprite en pixeles
     
     private final BufferedImage bufferedImage; 
+    
+    private Sprite pj;
     
     private final Sprite[][] world = new Sprite[16][16];
     
     public Canvas3() {
+        
+        addKeyListener(new Canvas3.TAdapter());
         setFocusable(true);
         setSize(new Dimension(C_WIDTH, C_HEIGHT));
         setPreferredSize(new Dimension(C_WIDTH, C_HEIGHT));
@@ -54,6 +62,7 @@ public class Canvas3 extends JPanel implements Runnable{
         world[5][4] = new Sprite(Assets.WALL, 5, 4);
         world[5][6] = new Sprite(Assets.BOX, 5, 6);
         world[5][7] = new Sprite(Assets.PLAYER, 5, 7);
+        pj = world[5][7];
         world[5][8] = new Sprite(Assets.FLOOR, false, 5, 8);
         world[5][9] = new Sprite(Assets.FLOOR, false, 5, 9);
         world[5][10] = new Sprite(Assets.WALL, 5, 10);
@@ -102,15 +111,14 @@ public class Canvas3 extends JPanel implements Runnable{
         g2D.setColor(Color.lightGray);
         g2D.fillRect(0,0,this.getWidth(),this.getHeight());
         
-        Sprite sprite;
         for (int x = 0; x <= 15; x++ )
         {
             for (int y = 0; y <= 15; y++)
             {
                 if (world[x][y] == null)
                     continue;
-                sprite = world[x][y];
-                sprite.paint(g2D, this);
+
+                world[x][y].paint(g2D, this);
             }
         }
         g.drawImage(bufferedImage, 0, 0, this);
@@ -120,4 +128,48 @@ public class Canvas3 extends JPanel implements Runnable{
     public void run() {
         repaint();
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        repaint();
+        System.out.println("test");
+    }
+    
+    private class TAdapter extends KeyAdapter {
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+            int key = e.getKeyCode();
+
+            switch (key) {
+                case KeyEvent.VK_LEFT:
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    break;
+                case KeyEvent.VK_UP:
+                    
+                    pj.setY(pj.getY() -43);
+                    System.out.println(pj.getY());
+                    
+                    Sprite t = world[pj.getX()][pj.getY()];
+                    world[pj.getX()][pj.getY()] = world[pj.getX()][pj.getY() + 43];
+                    world[pj.getX()][pj.getY() + 43] = t;
+                    
+                    t.setY(pj.getY() + 43);
+                    repaint();
+                    break;
+                case KeyEvent.VK_DOWN:
+                    
+//                    if(world[][]){}
+                    pj.setY(pj.getY() +43);
+                    System.out.println(pj.getY());
+                    
+                    repaint();
+                    
+                    break;
+            }
+        }
+    }
 }
+

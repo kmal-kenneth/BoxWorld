@@ -3,9 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/oscar/NetBeansProjects/BoxWorld/src/boxworld/presentation/Canvas.java</file>
-            <file>file:/home/oscar/NetBeansProjects/BoxWorld/src/boxworld/presentation/Canvas2.java</file>
-            <file>file:/home/oscar/NetBeansProjects/BoxWorld/src/boxworld/BoxWorld.java</file>
+            <file>file:/home/kenma/Proyects/BoxWorld/src/boxworld/domain/Sprite.java</file>
+            <file>file:/home/kenma/Proyects/BoxWorld/src/boxworld/Board.java</file>
+            <file>file:/home/kenma/Proyects/BoxWorld/src/boxworld/BoxWorld.java</file>
+            <file>file:/home/kenma/Proyects/BoxWorld/src/boxworld/domain/Assets.java</file>
+            <file>file:/home/kenma/Proyects/BoxWorld/src/boxworld/presentation/Canvas3.java</file>
         </group>
     </open-files>
 </project-private>

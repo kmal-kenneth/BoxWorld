@@ -24,7 +24,7 @@ public class Sprite {
     
     private boolean defaultSkin;
 
-    protected final int SPRITE_SIZE = 48;
+    protected final int SPRITE_SIZE = 43;
 
     public Sprite(Assets asset) {
         this.asset = asset;

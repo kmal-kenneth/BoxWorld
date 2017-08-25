@@ -305,14 +305,11 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
             
             Sprite t = null;
         
-            for (int i = 0; i <= 15; i++ )
+            for (int i = 0; i < 4; i++ )
             {
-                for (int j = 0; j <= 15; j++)
-                {
-                    if (world[i][j] != null && (world[i][j].getX() == x && world[i][j].getY() == y) && world[i][j].getAsset() == Assets.BOX){
-                        t = world[i][j];
-                        break;
-                    }
+                if (boxes[i].getX() == x && boxes[i].getY() == y){
+                    t = boxes[i];
+                    break;
                 }
             }
             

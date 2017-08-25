@@ -13,6 +13,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+import javax.swing.Spring;
 import simplesnake.Board;
 
 /**
@@ -29,6 +30,7 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
     private Sprite pj;
     
     private final Sprite[][] world = new Sprite[16][16];
+    private final Sprite[][] worldFloor = new Sprite[16][16];
     
     public Canvas3() {
         
@@ -43,9 +45,13 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
         for(int i = 0; i < 16; i++){
             for(int j = 0; j < 16; j++){
             
-                world[i][j] = new Sprite(Assets.FLOOR, i, j);
+                worldFloor[i][j] = new Sprite(Assets.FLOOR, i, j);
             }        
         }
+        worldFloor[5][8] = new Sprite(Assets.FLOOR, false, 5, 8);
+        worldFloor[5][9] = new Sprite(Assets.FLOOR, false, 5, 9);
+        worldFloor[6][9] = new Sprite(Assets.FLOOR, false, 6, 9);
+        worldFloor[6][8] = new Sprite(Assets.FLOOR, false, 6, 8);
         
         //Columna X=3
         world[3][6] = new Sprite(Assets.WALL, 3, 6);
@@ -63,14 +69,10 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
         world[5][6] = new Sprite(Assets.BOX, 5, 6);
         world[5][7] = new Sprite(Assets.PLAYER, 5, 7);
         pj = world[5][7];
-        world[5][8] = new Sprite(Assets.FLOOR, false, 5, 8);
-        world[5][9] = new Sprite(Assets.FLOOR, false, 5, 9);
         world[5][10] = new Sprite(Assets.WALL, 5, 10);
         //Columna X=6
         world[6][4] = new Sprite(Assets.WALL, 6, 4);
         world[6][6] = new Sprite(Assets.WALL, 6, 6);
-        world[6][8] = new Sprite(Assets.FLOOR, false, 6, 8);
-        world[6][9] = new Sprite(Assets.FLOOR, false, 6, 9);
         world[6][10] = new Sprite(Assets.WALL, 6, 10);
         //Columna X=7
         world[7][4] = new Sprite(Assets.WALL, 7, 4);
@@ -115,12 +117,27 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
         {
             for (int y = 0; y <= 15; y++)
             {
-                if (world[x][y] == null)
+                if (worldFloor[x][y] == null){
+                
                     continue;
+                }
+
+                worldFloor[x][y].paint(g2D, this);
+            }
+        }
+        
+        for (int x = 0; x <= 15; x++ )
+        {
+            for (int y = 0; y <= 15; y++)
+            {
+                if (world[x][y] == null){
+                    continue;
+                }
 
                 world[x][y].paint(g2D, this);
             }
         }
+        
         g.drawImage(bufferedImage, 0, 0, this);
     }
     
@@ -138,6 +155,7 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
     private class TAdapter extends KeyAdapter {
         
         private Sprite point = null;
+        private Sprite point2 = null;
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -145,44 +163,152 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
             int key = e.getKeyCode();
 
             switch (key) {
-                case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_LEFT:                    
                     
                     //Si el Sprite izquierdo es muro no se mueve
-                    if (world[pj.getX() - 1][pj.getY()].getAsset() != Assets.WALL) {
+                    if (!getWall(pj.getX() -1, pj.getY())) {
+                        
+                        Sprite box = getBox(pj.getX() -1, pj.getY());
+                        Sprite boxNextBox = getBox(pj.getX() -2, pj.getY());
+                        boolean wallNextBox = getWall(pj.getX() -2, pj.getY());
+                        
+                        if (box != null && boxNextBox != null) {
+                            //No se hace nada en este caso;
+                        } else if( box != null && !wallNextBox){
+                            
+                            box.setX(box.getX() -1);                            
+                            pj.setX(pj.getX() -1);
+                        } else if (box != null && wallNextBox) {
+                            //No se hace nada en este caso;
+                        } else {
+                        
+                            pj.setX(pj.getX() -1);
+                        }
                     
-                        moveLefth();
                     }
                     
                     
                     break;
                 case KeyEvent.VK_RIGHT:
                     
-                    if (world[pj.getX() + 1][pj.getY()].getAsset() != Assets.WALL) {
+                    //Si el Sprite izquierdo es muro no se mueve
+                    if (!getWall(pj.getX() +1, pj.getY())) {
                         
-                        moveRigth();
+                        Sprite box = getBox(pj.getX() +1, pj.getY());
+                        boolean wallNextBox = getWall(pj.getX() +2, pj.getY());
+                        Sprite boxNextBox = getBox(pj.getX() +2, pj.getY());
+                        
+                        if (box != null && boxNextBox != null) {
+                            
+                            //No se hace nada en este caso;
+                            
+                        } else if( box != null && !wallNextBox){
+                            
+                            box.setX(box.getX() +1);                            
+                            pj.setX(pj.getX() +1);
+                        } else if (box != null && wallNextBox) {
+                            //No se hace nada en este caso;
+
+                        } else {
+                        
+                            pj.setX(pj.getX() +1);
+                        }
+                    
                     }
                     break;
                 case KeyEvent.VK_UP:
                     
-                    if (world[pj.getX()][pj.getY() - 1].getAsset() != Assets.WALL) {
-
-                            moveUp();
-                     
+                    //Si el Sprite izquierdo es muro no se mueve
+                    if (!getWall(pj.getX(), pj.getY() -1)) {
+                        
+                        Sprite box = getBox(pj.getX(), pj.getY() -1);
+                        boolean wallNextBox = getWall(pj.getX(), pj.getY() -2);
+                        Sprite boxNextBox = getBox(pj.getX(), pj.getY() -2);
+                        
+                        if (box != null && boxNextBox != null) {
+                            //No se hace nada en este caso;
+                        } else if( box != null && !wallNextBox){
+                            
+                            box.setY(box.getY() -1);                            
+                            pj.setY(pj.getY() -1);
+                        } else if (box != null && wallNextBox) {
+                            //No se hace nada en este caso;
+                        } else {
+                        
+                            pj.setY(pj.getY() -1);
+                        }
+                    
                     }
                     
                     break;
                 case KeyEvent.VK_DOWN:
                     
-                    if (world[pj.getX()][pj.getY() + 1].getAsset() != Assets.WALL) {
-                                                
-                        moveDown();
+                    //Si el Sprite izquierdo es muro no se mueve
+                    if (!getWall(pj.getX(), pj.getY() +1)) {
+                        
+                        Sprite box = getBox(pj.getX(), pj.getY() +1);
+                        Sprite boxNextBox = getBox(pj.getX(), pj.getY() +2);
+                        boolean wallNextBox = getWall(pj.getX(), pj.getY() +2);
+                        
+                        if (box != null && boxNextBox != null) {
+                            //No se hace nada en este caso;
+                        } else if( box != null && !wallNextBox){
+                            
+                            box.setY(box.getY() +1);                            
+                            pj.setY(pj.getY() +1);
+                        } else if (box != null && wallNextBox) {
+                            //No se hace nada en este caso;
+                        } else {
+                        
+                            pj.setY(pj.getY() +1);
+                        }
                     
                     }                    
+                    // Agregar verificacion si tor esta en goal
+                    // Agregar verificacion si box esta en goal
                     
+                    //Verificar si todos los estados estan en true Para 
                     
                     break;
             }
                     repaint();
+        }
+        
+        
+        private Sprite getBox(int x, int y){
+            
+            Sprite t = null;
+        
+            for (int i = 0; i <= 15; i++ )
+            {
+                for (int j = 0; j <= 15; j++)
+                {
+                    if (world[i][j] != null && (world[i][j].getX() == x && world[i][j].getY() == y) && world[i][j].getAsset() == Assets.BOX){
+                        t = world[i][j];
+                        break;
+                    }
+                }
+            }
+            
+            return t;
+        }
+        
+        private boolean getWall(int x, int y){
+            
+            boolean t = false;
+        
+            for (int i = 0; i <= 15; i++ )
+            {
+                for (int j = 0; j <= 15; j++)
+                {
+                    if (world[i][j] != null && (world[i][j].getX() == x && world[i][j].getY() == y) && world[i][j].getAsset() == Assets.WALL){
+                        t = true;
+                        break;
+                    }
+                }
+            }
+            
+            return t;
         }
         
         
@@ -319,6 +445,9 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
                     if(point == null){
                    
                         pj.setY(pj.getY() +1);
+//                        boxMoveDown();
+
+//pj.setY(pj.getY() +1);
                         //caja
                         Sprite caja = world[pj.getX()][pj.getY()];
 
@@ -665,6 +794,70 @@ public class Canvas3 extends JPanel implements Runnable,  ActionListener {
                 pj.setDefaultSkin(true);
             }
         }
+        
+        private void boxMoveUp(){}
+        private void boxMoveDown(){
+        
+        
+            if (world[pj.getX()][pj.getY()+2].getAsset() == Assets.FLOOR && !world[pj.getX()][pj.getY()+2].isDefaultSkin()){
+                
+                if(point2 == null){
+                
+                        point2 = world[pj.getX()][pj.getY()+1];
+                    
+                        Sprite caja = world[pj.getX()][pj.getY()];
+
+                        caja.setY(pj.getY() +1);
+
+                        Sprite t2 = new Sprite(Assets.FLOOR, pj.getX(), pj.getY()+1);
+
+                        world[pj.getX()][pj.getY()+1] = caja;
+                        world[pj.getX()][pj.getY()] = t2;
+
+                        t2.setY(pj.getY() - 1);
+                        
+                        point = point2;
+                        moveDown();
+                        
+                } else {
+                
+                        Sprite point3 = world[pj.getX()][pj.getY()+1];
+                    
+                    
+                        Sprite caja = world[pj.getX()][pj.getY()];
+
+                        caja.setY(pj.getY() +1);
+
+                        Sprite t2 = point2;
+
+                        world[pj.getX()][pj.getY()+1] = caja;
+                        world[pj.getX()][pj.getY()] = t2;
+
+
+                        point2 = point3;
+                        
+//                        System.out.println(point.toString());
+                }
+            
+            } else {
+                
+                pj.setY(pj.getY() +1);
+                        //caja
+                        Sprite caja = world[pj.getX()][pj.getY()];
+
+                        caja.setY(pj.getY() +1);
+
+                        Sprite t2 = world[pj.getX()][pj.getY()+1];
+
+                        world[pj.getX()][pj.getY()+1] = caja;
+                        world[pj.getX()][pj.getY()] = t2;
+
+                        t2.setY(pj.getY() - 1);
+            
+            }
+        }
+        private void boxMoveLeft(){}
+        private void boxMoveRigth(){}
     }
 }
 

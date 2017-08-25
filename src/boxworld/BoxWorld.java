@@ -15,9 +15,13 @@ import javax.swing.JFrame;
 public class BoxWorld extends JFrame {
     
     public BoxWorld(){
+        
+        
+                
         this.add(new Canvas3());
         setResizable(false);
         pack();
+        
         
         setTitle("|_| THOR BOX WORLD |_|");
         setLocationRelativeTo(null);

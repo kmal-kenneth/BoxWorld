@@ -5,21 +5,34 @@
  */
 package boxworld.domain;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
+import javax.swing.JPanel;
 
 /**
  *
  * @author oscar
  */
-public abstract class Sprite implements Drawable {
+public class Sprite implements Drawable {
     
     protected int x;
     protected int y;
     protected Image skin1;
     protected Image skin2;
-    boolean currentImage;
+    protected Assets asset;
+    
+    protected boolean defaultSkin;
 
     protected final int SPRITE_SIZE = 48;
+
+    public Sprite(Assets asset) {
+        this.asset = asset;
+        
+        skin1 = this.asset.getSkin1();
+        skin2 = this.asset.getSkin2();
+        
+        defaultSkin = true;
+    }
    
     public void setX(int x) {
         this.x = x;
@@ -48,8 +61,25 @@ public abstract class Sprite implements Drawable {
     public void setSkin2(Image skin2) {
         this.skin2 = skin2;
     }
- 
+    
     public Image getSkin2() {
         return skin2;
+    }
+
+    @Override
+    public void paint(Graphics2D g2d, JPanel canvas, int x, int y) {
+        this.x = x;
+        this.y = y;
+        
+        if (defaultSkin){
+        
+            g2d.drawImage(skin1, this.x * SPRITE_SIZE, this.y * SPRITE_SIZE, canvas);
+        } else if(skin2 != null){
+        
+            g2d.drawImage(skin2, this.x * SPRITE_SIZE, this.y * SPRITE_SIZE, canvas);
+        } else {
+        
+            g2d.drawImage(skin1, this.x * SPRITE_SIZE, this.y * SPRITE_SIZE, canvas);
+        }
     }
 }

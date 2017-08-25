@@ -12,7 +12,7 @@ import javax.swing.JPanel;
  */
 public interface Drawable {
     
-    public abstract void paint(Graphics2D g2d, JPanel canvas);
+//    public abstract void paint(Graphics2D g2d, JPanel canvas);
     
     public abstract void paint(Graphics2D g2d, JPanel canvas, int x, int y); 
    

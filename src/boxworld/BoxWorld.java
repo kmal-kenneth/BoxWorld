@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 public class BoxWorld extends JFrame {
     
     public BoxWorld(){
-        this.add(new Canvas());
+        this.add(new Canvas2());
         setResizable(false);
         pack();
         

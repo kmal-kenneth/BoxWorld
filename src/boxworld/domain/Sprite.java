@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package boxworld.domain;
 
 import java.awt.Graphics2D;
@@ -34,11 +35,35 @@ public class Sprite implements Drawable {
         defaultSkin = true;
     } 
     
+    public Sprite(Assets asset, int x, int y) {
+        this.asset = asset;
+        
+        skin1 = this.asset.getSkin1();
+        skin2 = this.asset.getSkin2();
+        
+        this.x = x;
+        this.y = y;
+        
+        defaultSkin = true;
+    } 
+    
     public Sprite(Assets asset, boolean defaultSkin) {
         this.asset = asset;
         
         skin1 = this.asset.getSkin1();
         skin2 = this.asset.getSkin2();
+        
+        this.defaultSkin = defaultSkin;
+    }
+    
+    public Sprite(Assets asset, boolean defaultSkin, int x, int y) {
+        this.asset = asset;
+        
+        skin1 = this.asset.getSkin1();
+        skin2 = this.asset.getSkin2();
+        
+        this.x = x;
+        this.y = y;
         
         this.defaultSkin = defaultSkin;
     }

@@ -35,15 +35,15 @@ public class Canvas3 extends JPanel implements Runnable{
         for(int i = 0; i < 16; i++){
             for(int j = 0; j < 16; j++){
             
-                world[i][j] = new Sprite(Assets.FLOOR);
+                world[i][j] = new Sprite(Assets.FLOOR, i, j);
             }        
         }
         
         //Columna X=3
-        world[3][6] = new Sprite(Assets.WALL);
-        world[3][7] = new Sprite(Assets.WALL);
-        world[3][8] = new Sprite(Assets.WALL);
-        world[3][9] = new Sprite(Assets.WALL);
+        world[3][6] = new Sprite(Assets.WALL, 3, 6);
+        world[3][7] = new Sprite(Assets.WALL, 3, 7);
+        world[3][8] = new Sprite(Assets.WALL, 3, 8);
+        world[3][9] = new Sprite(Assets.WALL, 3, 9);
         //Columna X=4
         world[4][4] = new Sprite(Assets.WALL);
         world[4][5] = new Sprite(Assets.WALL);

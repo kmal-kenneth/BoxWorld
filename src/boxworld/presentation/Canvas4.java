@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  *
  * @author oscar
  */
-public class Canvas2 extends JPanel implements Runnable,  ActionListener {
+public class Canvas4 extends JPanel implements Runnable,  ActionListener {
     
     private final int C_WIDTH = 688; // ANCHO DEL CANVAS EN PIXELES
     private final int C_HEIGHT = 688; // ALTURA DEL CANVAS EN PIXELES
@@ -37,9 +37,9 @@ public class Canvas2 extends JPanel implements Runnable,  ActionListener {
     private boolean check1 = false;   // CHECKS PARA VALIDAR EL PASO DE NIVEL
     private boolean check2 = false;   //
     
-    public Canvas2() {
+    public Canvas4() {
         
-        addKeyListener(new Canvas2.TAdapter());
+        addKeyListener(new Canvas4.TAdapter());
         setFocusable(true);
         setSize(new Dimension(C_WIDTH, C_HEIGHT));
         setPreferredSize(new Dimension(C_WIDTH, C_HEIGHT));
@@ -55,78 +55,105 @@ public class Canvas2 extends JPanel implements Runnable,  ActionListener {
         }
         
         // POSICIONAMIENTO DE LOS OBJETIVOS EN EL CANVAS, QUE SON FLOOR FALSO
-        worldFloor[11][6] = new Sprite(Assets.FLOOR, false, 11, 6);
-        worldFloor[11][7] = new Sprite(Assets.FLOOR, false, 11, 7);
-        worldFloor[11][8] = new Sprite(Assets.FLOOR, false, 11, 8);
+        worldFloor[5][11] = new Sprite(Assets.FLOOR, false, 5, 11);
+        worldFloor[6][10] = new Sprite(Assets.FLOOR, false, 6, 10);
+        worldFloor[6][11] = new Sprite(Assets.FLOOR, false, 6, 11);
         
         //CARGA DEL ARRAY CON LAS COORDENADAS DE LOS OBJETIVOS
-        targets[0] = worldFloor[11][6];        
-        targets[1] = worldFloor[11][7];        
-        targets[2] = worldFloor[11][8];        
+        targets[0] = worldFloor[5][11];        
+        targets[1] = worldFloor[6][10];        
+        targets[2] = worldFloor[6][11];        
         
         //POSICIONAMIENTO DE LAS CAJAS EN EL CANVAS
-        worldAssets[6][5] = new Sprite(Assets.BOX, 6, 5);
-        worldAssets[6][6] = new Sprite(Assets.BOX, 6, 6);
-        worldAssets[7][5] = new Sprite(Assets.BOX, 7, 5);
+        worldAssets[3][4] = new Sprite(Assets.BOX, 3, 4);
+        worldAssets[9][5] = new Sprite(Assets.BOX, 9, 5);
+        worldAssets[11][11] = new Sprite(Assets.BOX, 11, 11);
         
         // CARGA DEL ARRAY CON LAS COORDENADAS DE LAS CAJAS
-        boxes[0] = worldAssets[6][5];
-        boxes[1] = worldAssets[6][6];
-        boxes[2] = worldAssets[7][5];
+        boxes[0] = worldAssets[3][4];
+        boxes[1] = worldAssets[9][5];
+        boxes[2] = worldAssets[11][11];
         
         // POSICIONAMIENTO DEL PLAYER Y CARGA DE LA VARIABLE playerPos CON SUS COORDENADAS, PARA MOVIMIENTO
-        worldAssets[5][4] = new Sprite(Assets.PLAYER, 5, 4);
-        playerPos = worldAssets[5][4];
+        worldAssets[4][2] = new Sprite(Assets.PLAYER, 4, 2);
+        playerPos = worldAssets[4][2];
         
         // CARGA INDIVIDUAL DE LAS PAREDES DEL NIVEL
+        // Columna X=1
+        worldAssets[1][2] = new Sprite(Assets.WALL, 1, 2);
+        worldAssets[1][3] = new Sprite(Assets.WALL, 1, 3);
+        worldAssets[1][4] = new Sprite(Assets.WALL, 1, 4);
+        worldAssets[1][5] = new Sprite(Assets.WALL, 1, 5);
+        worldAssets[1][6] = new Sprite(Assets.WALL, 1, 6);
+        // Columna X=2
+        worldAssets[2][2] = new Sprite(Assets.WALL, 2, 2);
+        worldAssets[2][6] = new Sprite(Assets.WALL, 2, 6);
+        worldAssets[2][9] = new Sprite(Assets.WALL, 2, 9);
+        worldAssets[2][10] = new Sprite(Assets.WALL,2, 10);
+        worldAssets[2][11] = new Sprite(Assets.WALL, 2, 11);
+        worldAssets[2][12] = new Sprite(Assets.WALL, 2, 12);
+        // Columna X=3
+        worldAssets[3][1] = new Sprite(Assets.WALL, 3, 1);
+        worldAssets[3][2] = new Sprite(Assets.WALL, 3, 2);
+        worldAssets[3][6] = new Sprite(Assets.WALL, 3, 6);
+        worldAssets[3][7] = new Sprite(Assets.WALL, 3, 7);
+        worldAssets[3][8] = new Sprite(Assets.WALL, 3, 8);
+        worldAssets[3][9] = new Sprite(Assets.WALL, 3, 9);
+        worldAssets[3][12] = new Sprite(Assets.WALL, 3, 12);
         // Columna X=4
-        worldAssets[4][3] = new Sprite(Assets.WALL, 4, 3);
-        worldAssets[4][4] = new Sprite(Assets.WALL, 4, 4);
-        worldAssets[4][5] = new Sprite(Assets.WALL, 4, 5);
-        worldAssets[4][6] = new Sprite(Assets.WALL, 4, 6);
-        worldAssets[4][7] = new Sprite(Assets.WALL, 4, 7);
+        worldAssets[4][1] = new Sprite(Assets.WALL, 4, 1);
+        worldAssets[4][12] = new Sprite(Assets.WALL, 4, 12);
         // Columna X=5
+        worldAssets[5][1] = new Sprite(Assets.WALL, 5, 1);
+        worldAssets[5][2] = new Sprite(Assets.WALL, 5, 2);
         worldAssets[5][3] = new Sprite(Assets.WALL, 5, 3);
+        worldAssets[5][4] = new Sprite(Assets.WALL, 5, 4);
+        worldAssets[5][5] = new Sprite(Assets.WALL, 5, 5);
+        worldAssets[5][6] = new Sprite(Assets.WALL, 5, 6);
         worldAssets[5][7] = new Sprite(Assets.WALL, 5, 7);
-        worldAssets[5][8] = new Sprite(Assets.WALL, 5, 8);
-        worldAssets[5][9] = new Sprite(Assets.WALL, 5, 9);
-        worldAssets[5][10] = new Sprite(Assets.WALL, 5, 10);
-        worldAssets[5][11] = new Sprite(Assets.WALL, 5, 11); 
+        worldAssets[5][12] = new Sprite(Assets.WALL, 5, 12);
         // Columna X=6
-        worldAssets[6][3] = new Sprite(Assets.WALL, 6, 3);
         worldAssets[6][7] = new Sprite(Assets.WALL, 6, 7);
-        worldAssets[6][8] = new Sprite(Assets.WALL, 6, 8);
-        worldAssets[6][11] = new Sprite(Assets.WALL, 6, 11);
+        worldAssets[6][12] = new Sprite(Assets.WALL, 6, 12);
         // Columna X=7
         worldAssets[7][3] = new Sprite(Assets.WALL, 7, 3);
-        worldAssets[7][11] = new Sprite(Assets.WALL, 7, 11);
+        worldAssets[7][4] = new Sprite(Assets.WALL, 7, 4);
+        worldAssets[7][5] = new Sprite(Assets.WALL, 7, 5);
+        worldAssets[7][6] = new Sprite(Assets.WALL, 7, 6);
+        worldAssets[7][7] = new Sprite(Assets.WALL, 7, 7);
+        worldAssets[7][12] = new Sprite(Assets.WALL, 7, 12);
         // Columna X=8
         worldAssets[8][3] = new Sprite(Assets.WALL, 8, 3);
-        worldAssets[8][4] = new Sprite(Assets.WALL, 8, 4);
-        worldAssets[8][5] = new Sprite(Assets.WALL, 8, 5);
-        worldAssets[8][6] = new Sprite(Assets.WALL, 8, 6);
-        worldAssets[8][7] = new Sprite(Assets.WALL, 8, 7);
+        worldAssets[8][10] = new Sprite(Assets.WALL, 8, 10);
         worldAssets[8][11] = new Sprite(Assets.WALL, 8, 11);
+        worldAssets[8][12] = new Sprite(Assets.WALL, 8, 12);
         // Columna X=9
-        worldAssets[9][7] = new Sprite(Assets.WALL, 9, 7);
-        worldAssets[9][9] = new Sprite(Assets.WALL, 9, 9);
+        worldAssets[9][3] = new Sprite(Assets.WALL, 9, 3);
         worldAssets[9][10] = new Sprite(Assets.WALL, 9, 10);
         worldAssets[9][11] = new Sprite(Assets.WALL, 9, 11);
+        worldAssets[9][12] = new Sprite(Assets.WALL, 9, 12);
         // Columna X=10
+        worldAssets[10][3] = new Sprite(Assets.WALL, 10, 3);
+        worldAssets[10][4] = new Sprite(Assets.WALL, 10, 4);
         worldAssets[10][5] = new Sprite(Assets.WALL, 10, 5);
         worldAssets[10][6] = new Sprite(Assets.WALL, 10, 6);
-        worldAssets[10][7] = new Sprite(Assets.WALL, 10, 7);
-        worldAssets[10][10] = new Sprite(Assets.WALL, 10, 10);
+        worldAssets[10][12] = new Sprite(Assets.WALL, 10, 12);
+        worldAssets[10][13] = new Sprite(Assets.WALL, 10, 13);
         // Columna X=11
-        worldAssets[11][5] = new Sprite(Assets.WALL, 11, 5);
-        worldAssets[11][10] = new Sprite(Assets.WALL, 11, 10);
+        worldAssets[11][6] = new Sprite(Assets.WALL, 11, 6);
+        worldAssets[11][7] = new Sprite(Assets.WALL, 11, 7);
+        worldAssets[11][8] = new Sprite(Assets.WALL, 11, 8);
+        worldAssets[11][13] = new Sprite(Assets.WALL, 11, 13);
         // Columna X=12
-        worldAssets[12][5] = new Sprite(Assets.WALL, 12, 5);
-        worldAssets[12][6] = new Sprite(Assets.WALL, 12, 6);
-        worldAssets[12][7] = new Sprite(Assets.WALL, 12, 7);
         worldAssets[12][8] = new Sprite(Assets.WALL, 12, 8);
         worldAssets[12][9] = new Sprite(Assets.WALL, 12, 9);
-        worldAssets[12][10] = new Sprite(Assets.WALL, 12, 10);
+        worldAssets[12][13] = new Sprite(Assets.WALL, 12, 13);
+        // Columna X=11
+        worldAssets[13][9] = new Sprite(Assets.WALL, 13, 9);
+        worldAssets[13][10] = new Sprite(Assets.WALL, 13, 10);
+        worldAssets[13][11] = new Sprite(Assets.WALL, 13, 11);
+        worldAssets[13][12] = new Sprite(Assets.WALL, 13, 12);
+        worldAssets[13][13] = new Sprite(Assets.WALL, 13, 13);
 
     }
     

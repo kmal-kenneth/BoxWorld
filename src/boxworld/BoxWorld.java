@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package boxworld;
+
 import boxworld.presentation.*;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -14,20 +15,15 @@ import javax.swing.JFrame;
  */
 public class BoxWorld extends JFrame {
     
-    public BoxWorld(){
-        
-        
-                
-        this.add(new Canvas3());
+    public BoxWorld(){       
+        this.add(new Canvas5());
         setResizable(false);
         pack();
-        
-        
         setTitle("|_| THOR BOX WORLD |_|");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
+    
     /**
      * @param args the command line arguments
      */

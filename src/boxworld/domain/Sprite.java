@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 /**
  *
  * @author oscar
+ * CLASE QUE HEREDA A LOS OBJETOS IMAGEN
  */
 public class Sprite {
     
@@ -20,12 +21,11 @@ public class Sprite {
     protected int y;
     protected Image skin1;
     protected Image skin2;
-    private Assets asset;
-    
-    private boolean defaultSkin;
-
+    private Assets asset; // INSTANCIA DEL ENUM ASSETS
+    private boolean defaultSkin; // PIEL POR DEFECTO
     protected final int SPRITE_SIZE = 43;
 
+    // CONTRUCTOR QUE RECIBE SOLO LA INSTANCIA DE ENUM ASSETS
     public Sprite(Assets asset) {
         this.asset = asset;
         
@@ -35,6 +35,7 @@ public class Sprite {
         defaultSkin = true;
     } 
     
+    // CONTRUCTOR QUE RECIBE LA INSTANCIA DE ENUM ASSETS MAS LAS COORDENADAS EN X Y Y
     public Sprite(Assets asset, int x, int y) {
         this.asset = asset;
         
@@ -47,6 +48,7 @@ public class Sprite {
         defaultSkin = true;
     } 
     
+    // CONTRUCTOR QUE RECIBE LA INSTANCIA DE ENUM ASSETS Y EL FALSO O VERDADERO DE LA PIEL DEL SPRITE
     public Sprite(Assets asset, boolean defaultSkin) {
         this.asset = asset;
         
@@ -56,6 +58,8 @@ public class Sprite {
         this.defaultSkin = defaultSkin;
     }
     
+    // CONTRUCTOR QUE RECIBE LA INSTANCIA DE ENUM ASSETS, EL FALSO O VERDADERO DE LA PIEL DEL SPRITE
+    // Y LAS COORDENADAS EN X Y Y
     public Sprite(Assets asset, boolean defaultSkin, int x, int y) {
         this.asset = asset;
         
@@ -68,6 +72,7 @@ public class Sprite {
         this.defaultSkin = defaultSkin;
     }
    
+    // SETTERS Y GETTERS
     public void setX(int x) {
         this.x = x;
     }
@@ -100,20 +105,26 @@ public class Sprite {
         return skin2;
     }
 
+    // METODO PAINT DESDE LA CLASE, PARA PINTURA DE UNA U OTRA PIEL.
+    // SI LA PIEL ES LA PRIMERA, QUE LA PINTE SEGUN TAMAÑO DE PIXELES,
+    // SI LA SEGUNDA PIEL NO TIENE NADA, QUE SE LA PINTE, Y PARA CUALQUIER
+    // OTRO ESTADO, QUE PINTE LA PRIMERA
     public void paint(Graphics2D g2d, JPanel canvas) {
-        
-        if (defaultSkin){
-        
+        if (defaultSkin)
+        {
             g2d.drawImage(skin1, this.x * SPRITE_SIZE, this.y * SPRITE_SIZE, canvas);
-        } else if(skin2 != null){
-        
+        } 
+        else if(skin2 != null)
+        {        
             g2d.drawImage(skin2, this.x * SPRITE_SIZE, this.y * SPRITE_SIZE, canvas);
-        } else {
-        
+        } 
+        else 
+        {
             g2d.drawImage(skin1, this.x * SPRITE_SIZE, this.y * SPRITE_SIZE, canvas);
         }
     }
 
+    // GETTERS Y SETTERS DE LA INSTANCIA ASSETS
     public Assets getAsset() {
         return asset;
     }
@@ -121,7 +132,8 @@ public class Sprite {
     public void setAsset(Assets asset) {
         this.asset = asset;
     }
-
+    
+    // GET Y SET DE LA PIEL POR DEFECTO
     public boolean isDefaultSkin() {
         return defaultSkin;
     }
@@ -129,6 +141,4 @@ public class Sprite {
     public void setDefaultSkin(boolean defaultSkin) {
         this.defaultSkin = defaultSkin;
     }
-    
-    
 }

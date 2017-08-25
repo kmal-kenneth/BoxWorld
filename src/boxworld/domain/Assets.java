@@ -10,12 +10,12 @@ import javax.swing.ImageIcon;
 
 /**
  *
- * @author kenma
+ * @author oscar
  */
 public enum Assets {
     
     /**
-     *
+     * CARGA DE LAS IMAGENES. WALL PRESENTA SOLO UNA, POR ESO PRESENTA NULL LA SEGUNDA
      */
     BOX(new ImageIcon("image/box1.png").getImage(), new ImageIcon("image/box2.png").getImage()),
     PLAYER(new ImageIcon("image/player1.png").getImage(), new ImageIcon("image/player2.png").getImage()),
@@ -25,11 +25,13 @@ public enum Assets {
     private Image skin1;
     private Image skin2;
 
+    // CONSTRUCTOR
     private Assets(Image skin1, Image skin2) {
         this.skin1 = skin1;
         this.skin2 = skin2;
     }
 
+    //SETTERS Y GETTERS
     public Image getSkin1() {
         return skin1;
     }
@@ -44,10 +46,5 @@ public enum Assets {
 
     public void setSkin2(Image skin2) {
         this.skin2 = skin2;
-    }
-    
-    
-    
-    
-    
+    } 
 }

@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  *
  * @author oscar
  */
-public class Canvas2 extends JPanel implements Runnable,  ActionListener {
+public class Canvas1 extends JPanel implements Runnable,  ActionListener {
     
     private final int C_WIDTH = 688; // ANCHO DEL CANVAS EN PIXELES
     private final int C_HEIGHT = 688; // ALTURA DEL CANVAS EN PIXELES
@@ -30,16 +30,17 @@ public class Canvas2 extends JPanel implements Runnable,  ActionListener {
     
     private final Sprite[][] worldAssets = new Sprite[16][16]; // ARRAY PARA LOS OBJETOS QUE NO SON DE PISO
     private final Sprite[][] worldFloor = new Sprite[16][16]; // ARRAY PARA LOS OBJETOS DE PISO
-    private final Sprite[] targets = new Sprite[3]; // ARRAY PARA POSICIONAR LOS OBJETIVOS 
-    private final Sprite[] boxes = new Sprite[3]; // ARRAY PARA POSICIONAR LAS CAJAS
+    private final Sprite[] targets = new Sprite[4]; // ARRAY PARA POSICIONAR LOS OBJETIVOS 
+    private final Sprite[] boxes = new Sprite[4]; // ARRAY PARA POSICIONAR LAS CAJAS
     
     private boolean check = false;    //
     private boolean check1 = false;   // CHECKS PARA VALIDAR EL PASO DE NIVEL
     private boolean check2 = false;   //
+    private boolean check3 = false;   //
     
-    public Canvas2() {
+    public Canvas1() {
         
-        addKeyListener(new Canvas2.TAdapter());
+        addKeyListener(new Canvas1.TAdapter());
         setFocusable(true);
         setSize(new Dimension(C_WIDTH, C_HEIGHT));
         setPreferredSize(new Dimension(C_WIDTH, C_HEIGHT));
@@ -55,78 +56,70 @@ public class Canvas2 extends JPanel implements Runnable,  ActionListener {
         }
         
         // POSICIONAMIENTO DE LOS OBJETIVOS EN EL CANVAS, QUE SON FLOOR FALSO
-        worldFloor[11][6] = new Sprite(Assets.FLOOR, false, 11, 6);
-        worldFloor[11][7] = new Sprite(Assets.FLOOR, false, 11, 7);
-        worldFloor[11][8] = new Sprite(Assets.FLOOR, false, 11, 8);
+        worldFloor[5][8] = new Sprite(Assets.FLOOR, false, 5, 8);
+        worldFloor[7][5] = new Sprite(Assets.FLOOR, false, 7, 5);
+        worldFloor[8][10] = new Sprite(Assets.FLOOR, false, 8, 10);
+        worldFloor[10][7] = new Sprite(Assets.FLOOR, false, 10, 7);
         
         //CARGA DEL ARRAY CON LAS COORDENADAS DE LOS OBJETIVOS
-        targets[0] = worldFloor[11][6];        
-        targets[1] = worldFloor[11][7];        
-        targets[2] = worldFloor[11][8];        
+        targets[0] = worldFloor[5][8];        
+        targets[1] = worldFloor[7][5];        
+        targets[2] = worldFloor[8][10];        
+        targets[3] = worldFloor[10][7];     
         
         //POSICIONAMIENTO DE LAS CAJAS EN EL CANVAS
-        worldAssets[6][5] = new Sprite(Assets.BOX, 6, 5);
-        worldAssets[6][6] = new Sprite(Assets.BOX, 6, 6);
-        worldAssets[7][5] = new Sprite(Assets.BOX, 7, 5);
+        worldAssets[7][7] = new Sprite(Assets.BOX, 7, 7);
+        worldAssets[7][8] = new Sprite(Assets.BOX, 7, 8);
+        worldAssets[8][9] = new Sprite(Assets.BOX, 8, 9);
+        worldAssets[9][7] = new Sprite(Assets.BOX, 9, 7);
         
         // CARGA DEL ARRAY CON LAS COORDENADAS DE LAS CAJAS
-        boxes[0] = worldAssets[6][5];
-        boxes[1] = worldAssets[6][6];
-        boxes[2] = worldAssets[7][5];
+        boxes[0] = worldAssets[7][7];
+        boxes[1] = worldAssets[7][8];
+        boxes[2] = worldAssets[8][9];
+        boxes[3] = worldAssets[9][7];
         
         // POSICIONAMIENTO DEL PLAYER Y CARGA DE LA VARIABLE playerPos CON SUS COORDENADAS, PARA MOVIMIENTO
-        worldAssets[5][4] = new Sprite(Assets.PLAYER, 5, 4);
-        playerPos = worldAssets[5][4];
+        worldAssets[8][8] = new Sprite(Assets.PLAYER, 8, 8);
+        playerPos = worldAssets[8][8];
         
         // CARGA INDIVIDUAL DE LAS PAREDES DEL NIVEL
         // Columna X=4
-        worldAssets[4][3] = new Sprite(Assets.WALL, 4, 3);
-        worldAssets[4][4] = new Sprite(Assets.WALL, 4, 4);
-        worldAssets[4][5] = new Sprite(Assets.WALL, 4, 5);
-        worldAssets[4][6] = new Sprite(Assets.WALL, 4, 6);
         worldAssets[4][7] = new Sprite(Assets.WALL, 4, 7);
+        worldAssets[4][8] = new Sprite(Assets.WALL, 4, 8);
+        worldAssets[4][9] = new Sprite(Assets.WALL, 4, 9);
         // Columna X=5
-        worldAssets[5][3] = new Sprite(Assets.WALL, 5, 3);
         worldAssets[5][7] = new Sprite(Assets.WALL, 5, 7);
-        worldAssets[5][8] = new Sprite(Assets.WALL, 5, 8);
         worldAssets[5][9] = new Sprite(Assets.WALL, 5, 9);
-        worldAssets[5][10] = new Sprite(Assets.WALL, 5, 10);
-        worldAssets[5][11] = new Sprite(Assets.WALL, 5, 11); 
         // Columna X=6
-        worldAssets[6][3] = new Sprite(Assets.WALL, 6, 3);
+        worldAssets[6][4] = new Sprite(Assets.WALL, 6, 4);
+        worldAssets[6][5] = new Sprite(Assets.WALL, 6, 5);
+        worldAssets[6][6] = new Sprite(Assets.WALL, 6, 6);
         worldAssets[6][7] = new Sprite(Assets.WALL, 6, 7);
-        worldAssets[6][8] = new Sprite(Assets.WALL, 6, 8);
-        worldAssets[6][11] = new Sprite(Assets.WALL, 6, 11);
+        worldAssets[6][9] = new Sprite(Assets.WALL, 6, 9);
         // Columna X=7
-        worldAssets[7][3] = new Sprite(Assets.WALL, 7, 3);
+        worldAssets[7][4] = new Sprite(Assets.WALL, 7, 4);
+        worldAssets[7][9] = new Sprite(Assets.WALL, 7, 9);
+        worldAssets[7][10] = new Sprite(Assets.WALL, 7, 10);
         worldAssets[7][11] = new Sprite(Assets.WALL, 7, 11);
         // Columna X=8
-        worldAssets[8][3] = new Sprite(Assets.WALL, 8, 3);
         worldAssets[8][4] = new Sprite(Assets.WALL, 8, 4);
         worldAssets[8][5] = new Sprite(Assets.WALL, 8, 5);
         worldAssets[8][6] = new Sprite(Assets.WALL, 8, 6);
-        worldAssets[8][7] = new Sprite(Assets.WALL, 8, 7);
         worldAssets[8][11] = new Sprite(Assets.WALL, 8, 11);
         // Columna X=9
-        worldAssets[9][7] = new Sprite(Assets.WALL, 9, 7);
+        worldAssets[9][6] = new Sprite(Assets.WALL, 9, 6);
+        worldAssets[9][8] = new Sprite(Assets.WALL, 9, 8);
         worldAssets[9][9] = new Sprite(Assets.WALL, 9, 9);
         worldAssets[9][10] = new Sprite(Assets.WALL, 9, 10);
         worldAssets[9][11] = new Sprite(Assets.WALL, 9, 11);
         // Columna X=10
-        worldAssets[10][5] = new Sprite(Assets.WALL, 10, 5);
         worldAssets[10][6] = new Sprite(Assets.WALL, 10, 6);
-        worldAssets[10][7] = new Sprite(Assets.WALL, 10, 7);
-        worldAssets[10][10] = new Sprite(Assets.WALL, 10, 10);
+        worldAssets[10][8] = new Sprite(Assets.WALL, 10, 8);
         // Columna X=11
-        worldAssets[11][5] = new Sprite(Assets.WALL, 11, 5);
-        worldAssets[11][10] = new Sprite(Assets.WALL, 11, 10);
-        // Columna X=12
-        worldAssets[12][5] = new Sprite(Assets.WALL, 12, 5);
-        worldAssets[12][6] = new Sprite(Assets.WALL, 12, 6);
-        worldAssets[12][7] = new Sprite(Assets.WALL, 12, 7);
-        worldAssets[12][8] = new Sprite(Assets.WALL, 12, 8);
-        worldAssets[12][9] = new Sprite(Assets.WALL, 12, 9);
-        worldAssets[12][10] = new Sprite(Assets.WALL, 12, 10);
+        worldAssets[11][6] = new Sprite(Assets.WALL, 11, 6);
+        worldAssets[11][7] = new Sprite(Assets.WALL, 11, 7);
+        worldAssets[11][8] = new Sprite(Assets.WALL, 11, 8);
 
     }
     
@@ -310,7 +303,7 @@ public class Canvas2 extends JPanel implements Runnable,  ActionListener {
             boxInTarget();
 
             //ESTE IF VALIDA SI LAS CAJAS ESTAN EN LOS OBJETIVOS PARA PASAR DE NIVEL
-            if(check && check1 && check2) 
+            if(check && check1 && check2 && check3) 
             {
                 System.out.println("HACIA EL SIGUIENTE NIVEL");
             }
@@ -321,7 +314,7 @@ public class Canvas2 extends JPanel implements Runnable,  ActionListener {
     // METODO QUE RECIBE LAS COORDENADAS X Y Y DE LAS CAJAS PARA USARSE EN EL MAIN DE MOVIMIENTO
     private Sprite getBox(int x, int y){
         Sprite t = null;
-        for (int i = 0; i < 3; i++ )
+        for (int i = 0; i < 4; i++ )
         {
             if (boxes[i].getX() == x && boxes[i].getY() == y)
             {
@@ -353,7 +346,7 @@ public class Canvas2 extends JPanel implements Runnable,  ActionListener {
     private void playerInTarget(){
         boolean defaultSkin = true;
 
-        for (int i= 0; i < 3; i++)
+        for (int i= 0; i < 4; i++)
         {
             if(targets[i].getX() == playerPos.getX() && targets[i].getY() == playerPos.getY()) 
             {
@@ -369,13 +362,15 @@ public class Canvas2 extends JPanel implements Runnable,  ActionListener {
         boolean defaultSkin1 = true;
         boolean defaultSkin2 = true;
         boolean defaultSkin3 = true;
+        boolean defaultSkin4 = true;
 
         check =  false;
         check1 =  false;
         check2 =  false;
-        
-        for (int i= 0; i < 3; i++){
-            for (int j= 0; j < 3; j++)
+        check3 =  false;
+
+        for (int i= 0; i < 4; i++){
+            for (int j= 0; j < 4; j++)
             {
                 if(targets[i].getX() == boxes[0].getX() && targets[i].getY() == boxes[0].getY())
                 {
@@ -392,10 +387,16 @@ public class Canvas2 extends JPanel implements Runnable,  ActionListener {
                     check2 = true;
                     defaultSkin3 =  false;
                 } 
+                else if(targets[i].getX() == boxes[3].getX() && targets[i].getY() == boxes[3].getY())
+                {
+                    check3 = true;
+                    defaultSkin4 =  false;
+                }
             }
         }
         boxes[0].setDefaultSkin(defaultSkin1);
         boxes[1].setDefaultSkin(defaultSkin2);
         boxes[2].setDefaultSkin(defaultSkin3);
+        boxes[3].setDefaultSkin(defaultSkin4);
     }      
 }

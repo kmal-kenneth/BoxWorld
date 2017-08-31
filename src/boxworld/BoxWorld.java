@@ -8,6 +8,7 @@ package boxworld;
 import boxworld.presentation.*;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  *
@@ -16,12 +17,17 @@ import javax.swing.JFrame;
 public class BoxWorld extends JFrame {
     
     public BoxWorld(){       
-        this.add(new Canvas5());
+        this.add(new Canvas1(this));
         setResizable(false);
         pack();
         setTitle("|_| THOR BOX WORLD |_|");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
+    public void init( JPanel c){
+    
+        this.add(c);
     }
     
     /**

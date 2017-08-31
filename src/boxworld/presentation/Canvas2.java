@@ -39,10 +39,15 @@ public class Canvas2 extends JPanel implements Runnable,  ActionListener {
     
     public Canvas2() {
         
-        addKeyListener(new Canvas2.TAdapter());
+        this.addKeyListener(new Canvas2.TAdapter());
         setFocusable(true);
+        requestFocusInWindow();
+        this.revalidate();
+        this.repaint();
         setSize(new Dimension(C_WIDTH, C_HEIGHT));
         setPreferredSize(new Dimension(C_WIDTH, C_HEIGHT));
+        
+        
         
         this.bufferedImage = new BufferedImage(this.C_WIDTH, this.C_HEIGHT, BufferedImage.TYPE_INT_RGB); 
 
@@ -179,8 +184,6 @@ public class Canvas2 extends JPanel implements Runnable,  ActionListener {
     
     // CLASE ENCARGADA DEL MOVIMIENTO POR MEDIO DEL TECLADO
     private class TAdapter extends KeyAdapter {
-        private Sprite point1 = null;
-        private Sprite point2 = null;
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -247,7 +250,7 @@ public class Canvas2 extends JPanel implements Runnable,  ActionListener {
                     
                 //METODO DE MOVIMIENTO HACIA ARRIBA 
                 case KeyEvent.VK_UP:
-                    
+                                        
                     //VALIDA SI EL SPRITE SUPERIOR ES MURO, CAJA/MURO O CAJA/CAJA, PARA NO MOVERSE MAS
                     if (!getWall(playerPos.getX(), playerPos.getY()-1)) 
                     {

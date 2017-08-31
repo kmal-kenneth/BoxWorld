@@ -5,6 +5,7 @@
  */
 package boxworld.presentation;
 
+import boxworld.BoxWorld;
 import boxworld.domain.Assets;
 import boxworld.domain.Sprite;
 import java.awt.*;
@@ -38,8 +39,11 @@ public class Canvas1 extends JPanel implements Runnable,  ActionListener {
     private boolean check2 = false;   //
     private boolean check3 = false;   //
     
-    public Canvas1() {
-        
+    
+    private BoxWorld main;
+    
+    public Canvas1(BoxWorld main) {
+        this.main = main;
         addKeyListener(new Canvas1.TAdapter());
         setFocusable(true);
         setSize(new Dimension(C_WIDTH, C_HEIGHT));
@@ -294,6 +298,7 @@ public class Canvas1 extends JPanel implements Runnable,  ActionListener {
                         else 
                         {
                             playerPos.setY(playerPos.getY()+1);
+                            main.init(new Canvas2());
                         }
                     
                     }                    
@@ -306,6 +311,11 @@ public class Canvas1 extends JPanel implements Runnable,  ActionListener {
             if(check && check1 && check2 && check3) 
             {
                 System.out.println("HACIA EL SIGUIENTE NIVEL");
+                
+                removeAll();//or remove(JComponent)
+                add(new Canvas2());
+                revalidate();
+                repaint();
             }
             repaint();
         }
